@@ -180,7 +180,7 @@ $(document).ready(function () {
             $(this).removeClass("block");
         });
         smallTetrominoes[nextRandom].forEach(index => {
-            displaySquares[displayIndex + index].classList.add("block");
+            displaySquares[0].children[displayIndex + index].classList.add("block");
         })
     }
 
