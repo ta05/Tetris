@@ -1,7 +1,7 @@
-const gridWidth = 10;
-const gridHeight = 20;
+const width = 10;
+const height = 20;
 
-createGridDivs(gridWidth, gridHeight);
+createGridDivs(width, height);
 
 $(document).ready(function () {
     let currentPosition = 4;
@@ -34,44 +34,58 @@ $(document).ready(function () {
 
     $(document).keyup(control);
 
-    // Tetrominoes
+    // Tetrominoes: Clockwise Rotation
 
-    const lTetromino = [
-        [1, gridWidth + 1, gridWidth * 2 + 1, 2],
-        [gridWidth, gridWidth + 1, gridWidth + 2, gridWidth * 2 + 2],
-        [1, gridWidth + 1, gridWidth * 2 + 1, gridWidth * 2],
-        [gridWidth, gridWidth * 2, gridWidth * 2 + 1, gridWidth * 2 + 2]
+    const lBlock = [
+        [1, width + 1, width * 2 + 1, 2],
+        [width, width + 1, width + 2, 0],
+        [1, width + 1, width * 2 + 1, width * 2],
+        [width, width + 1, width + 2, width * 2 + 2]
     ];
 
-    const zTetromino = [
-        [0, gridWidth, gridWidth+ 1, gridWidth * 2 + 1],
-        [gridWidth + 1, gridWidth + 2, gridWidth * 2, gridWidth * 2 + 1],
-        [0, gridWidth, gridWidth+ 1, gridWidth * 2 + 1],
-        [gridWidth + 1, gridWidth + 2, gridWidth * 2, gridWidth * 2 + 1]
+    const zBlock = [
+        [0, width, width + 1, width * 2 + 1],
+        [width + 1, width + 2, width * 2, width * 2 + 1],
+        [0, width, width+ 1, width * 2 + 1],
+        [width + 1, width + 2, width * 2, width * 2 + 1]
     ];
 
-    const tTetromino = [
-        [1, gridWidth, gridWidth + 1, gridWidth * 2],
-        [1, gridWidth + 1, gridWidth + 2, gridWidth * 2 + 2],
-        [gridWidth, gridWidth + 1, gridWidth + 2, gridWidth * 2 + 1],
-        [1, gridWidth, gridWidth + 1, gridWidth * 2 + 1]
+    const tBlock = [
+        [1, width, width + 1, width + 2],
+        [1, width + 1, width + 2, width * 2 + 1],
+        [width, width + 1, width + 2, width * 2 + 1],
+        [1, width, width + 1, width * 2 + 1]
     ];
 
-    const oTetromino = [
-        [0, 1, gridWidth, gridWidth + 1],
-        [0, 1, gridWidth, gridWidth + 1],
-        [0, 1, gridWidth, gridWidth + 1],
-        [0, 1, gridWidth, gridWidth + 1]
+    const oBlock = [
+        [0, 1, width, width + 1],
+        [0, 1, width, width + 1],
+        [0, 1, width, width + 1],
+        [0, 1, width, width + 1]
     ];
 
-    const iTetromino = [
-        [1, gridWidth + 1, gridWidth * 2 + 1, gridWidth * 3 + 1],
-        [gridWidth, gridWidth + 1, gridWidth + 2, gridWidth + 3],
-        [1, gridWidth + 1, gridWidth * 2 + 1, gridWidth * 3 + 1],
-        [gridWidth, gridWidth + 1, gridWidth + 2, gridWidth + 3]
+    const iBlock = [
+        [1, width + 1, width * 2 + 1, width * 3 + 1],
+        [width * 2, width * 2 + 1, width * 2 + 2, width * 2 + 3],
+        [2, width + 2, width * 2 + 2, width * 3 + 2],
+        [width, width + 1, width + 2, width + 3]
     ];
 
-    const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino];
+    const sBlock = [
+        [1, width, width + 1, width * 2],
+        [width + 1, width * 2 + 2, width, width * 2 + 1],
+        [1, width, width + 1, width * 2],
+        [width + 1, width * 2 + 2, width, width * 2 + 1]
+    ];
+
+    const jBlock = [
+        [1, width + 1, width * 2 + 1, 0],
+        [width, width + 1, width + 2, width * 2],
+        [1, width + 1, width * 2 + 1, width * 2 + 2],
+        [width, width + 1, width + 2, 2]
+    ];
+
+    const theTetrominoes = [lBlock, zBlock, tBlock, oBlock, iBlock, sBlock, jBlock];
 
 
     // Randomly selects Tetromino
@@ -100,7 +114,7 @@ $(document).ready(function () {
     // Move Tetromino Down a block every second
     function moveDown() {
         undraw();
-        currentPosition += gridWidth;
+        currentPosition += width;
         draw();
         freeze();
     }
@@ -109,8 +123,8 @@ $(document).ready(function () {
     
     function moveRight() {
         undraw();
-        const isAtRightEdge = current.some(index => (currentPosition + index) % gridWidth === gridWidth - 1);
-        if (isAtRightEdge)
+        const isAtRightEdge = current.some(index => (currentPosition + index) % width === width - 1);
+        if (!isAtRightEdge)
             currentPosition += 1;
         if (current.some(index => squares[currentPosition + index].classList.contains("block2")))
             currentPosition -= 1;
@@ -121,8 +135,8 @@ $(document).ready(function () {
 
     function moveLeft() {
         undraw();
-        const isAtLeftEdge = current.some(index => (currentPosition + index) % gridWidth === 0);
-        if (isAtLeftEdge)
+        const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0);
+        if (!isAtLeftEdge)
             currentPosition -= 1;
         if (current.some(index => squares[currentPosition + index].classList.contains("block2")))
             currentPosition += 1;
