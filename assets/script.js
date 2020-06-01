@@ -14,19 +14,15 @@ $(document).ready(function () {
     function control(e) {
         switch (e.keyCode) {
             case 39:
-                console.log("Right Key Pressed");
                 moveRight();
                 break;
             case 38:
-                console.log("Up Key Pressed");
                 rotate();
                 break;
             case 37:
-                console.log("Left Key Pressed");
                 moveLeft();
                 break;
             case 40:
-                console.log("Down Key Pressed");
                 moveDown();
                 break;
         }
@@ -37,10 +33,10 @@ $(document).ready(function () {
     // Tetrominoes: Clockwise Rotation
 
     const lBlock = [
-        [1, width + 1, width * 2 + 1, 2],
-        [width, width + 1, width + 2, 0],
-        [1, width + 1, width * 2 + 1, width * 2],
-        [width, width + 1, width + 2, width * 2 + 2]
+        [0, 1, width + 1, width * 2 + 1],
+        [2, width, width + 1, width + 2],
+        [1, width + 1, width * 2 + 1, width * 2 + 2],
+        [width, width + 1, width + 2, width * 2]
     ];
 
     const zBlock = [
@@ -66,9 +62,9 @@ $(document).ready(function () {
 
     const iBlock = [
         [1, width + 1, width * 2 + 1, width * 3 + 1],
-        [width * 2, width * 2 + 1, width * 2 + 2, width * 2 + 3],
+        [width, width + 1, width + 2, width + 3],
         [2, width + 2, width * 2 + 2, width * 3 + 2],
-        [width, width + 1, width + 2, width + 3]
+        [width * 2, width * 2 + 1, width * 2 + 2, width * 2 + 3]
     ];
 
     const sBlock = [
@@ -79,10 +75,10 @@ $(document).ready(function () {
     ];
 
     const jBlock = [
-        [1, width + 1, width * 2 + 1, 0],
-        [width, width + 1, width + 2, width * 2],
-        [1, width + 1, width * 2 + 1, width * 2 + 2],
-        [width, width + 1, width + 2, 2]
+        [1, 2, width + 1, width * 2 + 1],
+        [width, width + 1, width + 2, width * 2 + 2],
+        [1, width + 1, width * 2, width * 2 + 1],
+        [width, width + 1, width + 2, 0]
     ];
 
     const theTetrominoes = [lBlock, zBlock, tBlock, oBlock, iBlock, sBlock, jBlock];
@@ -94,6 +90,7 @@ $(document).ready(function () {
     let currentRotation = Math.floor(Math.random() * 4);
     let current = theTetrominoes[random][currentRotation];
 
+    console.log(random);
 
     // Draw the Shape
 
@@ -152,6 +149,7 @@ $(document).ready(function () {
             currentRotation = 0;
         current = theTetrominoes[random][currentRotation];
         draw();
+        console.log(currentRotation);
     }
 
     // Stops the Tetromino once it reaches the end of the grid
