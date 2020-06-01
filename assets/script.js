@@ -9,7 +9,32 @@ $(document).ready(function () {
     const grid = $(".grid");
     let squares = Array.from(grid.find('div'));
 
-    //Tetrominoes
+    // Assign functions to keycodes
+
+    function control(e) {
+        switch (e.keyCode) {
+            case 39:
+                console.log("Right Key Pressed");
+                moveRight();
+                break;
+            case 38:
+                console.log("Up Key Pressed");
+                rotate();
+                break;
+            case 37:
+                console.log("Left Key Pressed");
+                moveLeft();
+                break;
+            case 40:
+                console.log("Down Key Pressed");
+                moveDown();
+                break;
+        }
+    }
+
+    $(document).keyup(control);
+
+    // Tetrominoes
 
     const lTetromino = [
         [1, gridWidth + 1, gridWidth * 2 + 1, 2],
@@ -60,7 +85,7 @@ $(document).ready(function () {
 
     function draw() {
         current.forEach(index => {
-            squares[currentPosition + index].addClass("block");
+            squares[currentPosition + index].classList.add("block");
         });
     }
 
@@ -68,22 +93,51 @@ $(document).ready(function () {
 
     function undraw() {
         current.forEach(index => {
-            squares[currentPosition + index].removeClass("block");
+            squares[currentPosition + index].classList.remove("block");
         });
     }
 
     // Move Tetromino Down a block every second
     function moveDown() {
         undraw();
-        currentPosition += width;
+        currentPosition += gridWidth;
         draw();
         freeze();
     }
 
-    // Move Tetromino Left a block and Prevent Collisions with shapes
+    // Move Tetromino right a block and prevent collisions with shapes
+    
+    function moveRight() {
+        undraw();
+        const isAtRightEdge = current.some(index => (currentPosition + index) % gridWidth === gridWidth - 1);
+        if (isAtRightEdge)
+            currentPosition += 1;
+        if (current.some(index => squares[currentPosition + index].classList.contains("block2")))
+            currentPosition -= 1;
+        draw();
+    }
+
+    // Move Tetromino left a block and prevent collisions with shapes
+
     function moveLeft() {
         undraw();
-        const isAtLeftEdge = current.some(index => (currentPosition + index) % gridWidth === width - 1)
+        const isAtLeftEdge = current.some(index => (currentPosition + index) % gridWidth === 0);
+        if (isAtLeftEdge)
+            currentPosition -= 1;
+        if (current.some(index => squares[currentPosition + index].classList.contains("block2")))
+            currentPosition += 1;
+        draw();
+    }
+
+    // Rotate Tetromino
+
+    function rotate() {
+        undraw();
+        currentRotation++;
+        if (currentRotation === current.length)
+            currentRotation = 0;
+        current = theTetrominoes[random][currentRotation];
+        draw();
     }
 
     // Stops the Tetromino once it reaches the end of the grid
@@ -91,6 +145,8 @@ $(document).ready(function () {
     function freeze() {
         
     }
+
+    draw();
 
 
 });
