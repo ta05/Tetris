@@ -1,12 +1,16 @@
 const width = 10;
 const height = 20;
 
+const displayWidth = 4;
+
+createPreviewGrid(displayWidth, displayWidth);
 createGridDivs(width, height);
 
 $(document).ready(function () {
     let currentPosition = 4;
-    
+
     const grid = $(".grid");
+    const displaySquares = $(".preview-grid");
     let squares = Array.from(grid.find('div'));
 
     // Assign functions to keycodes
@@ -90,8 +94,6 @@ $(document).ready(function () {
     let currentRotation = Math.floor(Math.random() * 4);
     let current = theTetrominoes[random][currentRotation];
 
-    console.log(random);
-
     // Draw the Shape
 
     function draw() {
@@ -149,7 +151,6 @@ $(document).ready(function () {
             currentRotation = 0;
         current = theTetrominoes[random][currentRotation];
         draw();
-        console.log(currentRotation);
     }
 
     // Stops the Tetromino once it reaches the end of the grid
@@ -158,13 +159,47 @@ $(document).ready(function () {
         
     }
 
+
+    // Show preview of next tetromino in displaySquares
+
+    const displayIndex = 0;
+    let nextRandom = 0;
+    
+    const smallTetrominoes = [
+        [0, 1, displayWidth + 1, displayWidth * 2 + 1], // lBlock
+        [0, displayWidth, displayWidth + 1, displayWidth * 2 + 1], // zBlock
+        [1, displayWidth, displayWidth + 1, displayWidth + 2], // tBlock
+        [0, 1, displayWidth, displayWidth + 1], // oBlock
+        [1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1], // iBlock
+        [1, displayWidth, displayWidth + 1, displayWidth * 2], // sBlock
+        [1, 2, displayWidth + 1, displayWidth * 2 + 1] // jBlock
+    ];
+
+    function displayShape() {
+        displaySquares.each(function() {
+            $(this).removeClass("block");
+        });
+        smallTetrominoes[nextRandom].forEach(index => {
+            displaySquares[displayIndex + index].classList.add("block");
+        })
+    }
+
     draw();
-
-
+    displayShape();
 });
 
 function createGridDivs(width, height) {
-    size = width * height;
-    for (var i = 0; i < size; i++)
-        $(".grid").append($("<div>"));
+    for (var i = 0; i < height; i++)
+        for (var j = 0; j < width; j++) {
+            var divEl = $("<div>");
+            if (i == height - 1)
+                divEl.addClass("block3");
+            $(".grid").append(divEl);
+        }
+}
+
+function createPreviewGrid(width, height) {
+    for (var i = 0; i < height; i++)
+        for (var j = 0; j < width; j++)
+            $(".preview-grid").append($("<div>"));
 }

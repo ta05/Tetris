@@ -12,10 +12,26 @@ div {
     flex-wrap: wrap;
 }
 
+.preview-grid {
+    height: 80px;
+    width: 80px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.preview-shape {
+    height: 80px;
+    width: 80px;
+}
+
 .block {
     background-color: blue;
 }
 
 .block2 {
     background-color: purple;
+}
+
+.block3 {
+    background-color: green;
 }
