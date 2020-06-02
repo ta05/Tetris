@@ -10,8 +10,9 @@ $(document).ready(function () {
     let currentPosition = 4;
 
     const grid = $(".grid");
-    const displaySquares = $(".preview-grid");
+    const displaySquares = $("div.preview-grid");
     let squares = Array.from(grid.find('div'));
+    let timerId;
 
     // Assign functions to keycodes
 
@@ -32,7 +33,7 @@ $(document).ready(function () {
         }
     }
 
-    $(document).keyup(control);
+    $(document).keydown(control);
 
     // Tetrominoes: Clockwise Rotation
 
@@ -153,10 +154,20 @@ $(document).ready(function () {
         draw();
     }
 
-    // Stops the Tetromino once it reaches the end of the grid
+    // Stops the Tetromino once it reaches the end of the grid or another block.
 
     function freeze() {
-        
+        if (current.some(index => squares[currentPosition + index + width].classList.contains("block3") || squares[currentPosition + index + width].classList.contains("block2"))) {
+            current.forEach(index => squares[index + currentPosition].classList.add("block2"));
+
+            random = nextRandom;
+            nextRandom = Math.floor(Math.random() * theTetrominoes.length);
+            current = theTetrominoes[random][currentRotation];
+            currentPosition = 4;
+            draw();
+            displayShape();
+        }
+
     }
 
 
@@ -176,7 +187,8 @@ $(document).ready(function () {
     ];
 
     function displayShape() {
-        displaySquares.each(function() {
+        displaySquares.children().each(function () {
+            console.log($(this));
             $(this).removeClass("block");
         });
         smallTetrominoes[nextRandom].forEach(index => {
@@ -184,8 +196,20 @@ $(document).ready(function () {
         })
     }
 
-    draw();
-    displayShape();
+    $("#start-btn").click(function () {
+        if (timerId) {
+            clearInterval(timerId);
+            timerId = null;
+        }
+        else {
+            draw();
+            timerId = setInterval(moveDown, 1000);
+            nextRandom = Math.floor(Math.random() * theTetrominoes.length);
+            displayShape();
+        }
+    });
+
+    //displayShape();
 });
 
 function createGridDivs(width, height) {
