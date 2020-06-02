@@ -245,7 +245,7 @@ $(document).ready(function () {
         draw();
         levelDisplay.text("Level " + level);
         scoreDisplay.text("Score " + score);
-        timerId = setInterval(moveDown, 1000);
+        timerId = setInterval(moveDown, fallSpeedTable[level]/60 * 1000);
         nextRandom = Math.floor(Math.random() * theTetrominoes.length);
         displayShape();
         $(this).css("pointer-events", "none");
