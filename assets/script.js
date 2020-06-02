@@ -1,3 +1,4 @@
+
 const width = 10;
 const height = 20;
 
@@ -185,9 +186,9 @@ $(document).ready(function () {
             current = theTetrominoes[random][currentRotation];
             currentPosition = 4;
             draw();
-            displayShape();
             gameOver();
             addScore();
+            displayShape();
         }
 
     }
@@ -210,12 +211,14 @@ $(document).ready(function () {
 
     function displayShape() {
         displaySquares.children().each(function () {
-            $(this).removeClass("block");
-            $(this).removeClass(blockClass[nextRandom]);
+            console.log($(this)[0]);
+            $(this)[0].classList = [];
+            console.log($(this)[0]);
         });
         smallTetrominoes[nextRandom].forEach(index => {
             displaySquares[0].children[displayIndex + index].classList.add("block");
             displaySquares[0].children[displayIndex + index].classList.add(blockClass[nextRandom]);
+            console.log(displaySquares[0].children[displayIndex + index].classList);
         })
     }
 
@@ -241,7 +244,7 @@ $(document).ready(function () {
                 lines++;
 
                 row.forEach(index => {
-                    squares[index].classList.remove("block2") || squares[index].classList.remove("block");
+                    squares[index].classList = [];
                 })
 
                 // Splice Array
