@@ -12,13 +12,25 @@ $(document).ready(function () {
     const grid = $(".grid");
     const displaySquares = $("div.preview-grid");
     const scoreDisplay = $(".score-display");
-    const linesCleared = $(".lines-cleared");
+    const levelDisplay = $(".level-display");
+
+    const blockClass = ["lBlock", "zBlock", "tBlock", "oBlock", "iBlock", "sBlock", "jBlock"]
 
     let squares = Array.from(grid.find('div'));
     let timerId;
 
-    let score = 0;
-    let lines = 0;
+    var score = 0;
+    var linesCleared = 0;
+    var lines = 0;
+    var level = 0;
+
+
+    const scoreMultiplier = {
+        1: 40,
+        2: 100,
+        3: 300,
+        4: 1200
+    }; 
 
     // Assign functions to keycodes
 
@@ -106,6 +118,7 @@ $(document).ready(function () {
     function draw() {
         current.forEach(index => {
             squares[currentPosition + index].classList.add("block");
+            squares[currentPosition + index].classList.add(blockClass[random]);
         });
     }
 
@@ -114,6 +127,7 @@ $(document).ready(function () {
     function undraw() {
         current.forEach(index => {
             squares[currentPosition + index].classList.remove("block");
+            squares[currentPosition + index].classList.remove(blockClass[random]);
         });
     }
 
@@ -196,16 +210,19 @@ $(document).ready(function () {
 
     function displayShape() {
         displaySquares.children().each(function () {
-            console.log($(this));
             $(this).removeClass("block");
+            $(this).removeClass(blockClass[nextRandom]);
         });
         smallTetrominoes[nextRandom].forEach(index => {
             displaySquares[0].children[displayIndex + index].classList.add("block");
+            displaySquares[0].children[displayIndex + index].classList.add(blockClass[nextRandom]);
         })
     }
 
     $("#start-btn").click(function () {
         draw();
+        levelDisplay.text("Level " + level);
+        scoreDisplay.text("Score " + score);
         timerId = setInterval(moveDown, 1000);
         nextRandom = Math.floor(Math.random() * theTetrominoes.length);
         displayShape();
@@ -215,16 +232,13 @@ $(document).ready(function () {
     // Add Score
 
     function addScore() {
-        for (currentIndex = 0; currentIndex < 199; currentIndex += width){
+        for (currentIndex = 0; currentIndex < height * width - 1; currentIndex += width){
             var row = [];
             for (i = 0; i < width; i++)
                 row.push(currentIndex + i);
             
             if (row.every(index => squares[index].classList.contains("block2"))) {
-                score += 10;
                 lines++;
-                scoreDisplay.html("Score " + score);
-                linesCleared.html("Lines Cleared " + lines);
 
                 row.forEach(index => {
                     squares[index].classList.remove("block2") || squares[index].classList.remove("block");
@@ -237,6 +251,16 @@ $(document).ready(function () {
                 squares.forEach(cell => grid.append(cell));
             }
         }
+
+        // Calculate and Display Score
+        if (lines > 0) {
+            score += scorer(level, lines);
+            scoreDisplay.text("Score " + score);
+        }
+
+        // Level Up
+        levelUp(lines);
+        lines = 0;
     }
 
     // Game Over function
@@ -245,6 +269,19 @@ $(document).ready(function () {
         if (current.some(index => squares[currentPosition + index].classList.contains("block2"))) {
             scoreDisplay.html("End");
             clearInterval(timerId);
+        }
+    }
+
+    function scorer(level, lines) {
+        return (level + 1) * scoreMultiplier[lines];
+    }
+
+    function levelUp(lines) {
+        linesCleared += lines;
+        if (parseInt(linesCleared / 10) >= 1) {
+            level++;
+            linesCleared = 0;
+            levelDisplay.text("Level " + level);
         }
     }
 });

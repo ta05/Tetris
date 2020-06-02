@@ -26,7 +26,6 @@ div {
 }
 
 .block {
-    background-color: blue;
     box-sizing: border-box;
     border: 1px solid gray;
 
@@ -43,4 +42,31 @@ div {
     outline: none;
     box-sizing: border-box;
     border-top: 1px dotted rgb(224, 219, 219, 0.5);
+}
+
+.lBlock{
+    background-color: orange;
+}
+
+.zBlock{
+    background-color: red;
+}
+.tBlock{
+    background-color: purple;
+}
+
+.oBlock{
+    background-color: yellow;
+}
+
+.iBlock{
+    background-color: lightseagreen;
+}
+
+.sBlock{
+    background-color: yellowgreen;
+}
+
+.jBlock{
+    background-color: blue;
 }
