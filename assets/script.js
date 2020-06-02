@@ -270,7 +270,7 @@ $(document).ready(function () {
 
     function gameOver() {
         if (current.some(index => squares[currentPosition + index].classList.contains("block2"))) {
-            scoreDisplay.html("End");
+            scoreDisplay.text("Game Over! Score " + score);
             clearInterval(timerId);
         }
     }
