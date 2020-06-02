@@ -31,7 +31,29 @@ $(document).ready(function () {
         2: 100,
         3: 300,
         4: 1200
-    }; 
+    };
+
+    const fallSpeedTable = {
+        0: 48,
+        1: 43,
+        2: 38,
+        3: 33,
+        4: 28,
+        5: 23,
+        6: 18,
+        7: 13,
+        8: 8,
+        9: 6,
+        10: 5,
+        11: 5,
+        12: 5,
+        13: 4,
+        14: 4,
+        15: 4,
+        16: 3,
+        17: 3,
+        18: 3
+    };
 
     // Assign functions to keycodes
 
@@ -211,14 +233,11 @@ $(document).ready(function () {
 
     function displayShape() {
         displaySquares.children().each(function () {
-            console.log($(this)[0]);
             $(this)[0].classList = [];
-            console.log($(this)[0]);
         });
         smallTetrominoes[nextRandom].forEach(index => {
             displaySquares[0].children[displayIndex + index].classList.add("block");
             displaySquares[0].children[displayIndex + index].classList.add(blockClass[nextRandom]);
-            console.log(displaySquares[0].children[displayIndex + index].classList);
         })
     }
 
@@ -266,6 +285,38 @@ $(document).ready(function () {
         lines = 0;
     }
 
+    // Score the Line Clear
+
+    function scorer(level, lines) {
+        return (level + 1) * scoreMultiplier[lines];
+    }
+
+    // Level up every 10 Lines Cleared
+
+    function levelUp(lines) {
+        linesCleared += lines;
+        if (parseInt(linesCleared / 10) >= 1) {
+            level++;
+            linesCleared = 0;
+            levelDisplay.text("Level " + level);
+            updateInterval();
+        }
+    }
+
+    // Update Fall Speed
+
+    function updateInterval() {
+        var fps;
+        if (level > 28)
+            fps = 1;
+        else if (level > 18)
+            fps = 2;
+        else
+            fps = fallSpeedTable[level];
+        clearInterval(timerId);
+        timerId = setInterval(moveDown, fps/ 60 * 1000);
+    }
+
     // Game Over function
 
     function gameOver() {
@@ -275,18 +326,6 @@ $(document).ready(function () {
         }
     }
 
-    function scorer(level, lines) {
-        return (level + 1) * scoreMultiplier[lines];
-    }
-
-    function levelUp(lines) {
-        linesCleared += lines;
-        if (parseInt(linesCleared / 10) >= 1) {
-            level++;
-            linesCleared = 0;
-            levelDisplay.text("Level " + level);
-        }
-    }
 });
 
 function createGridDivs(width, height) {
