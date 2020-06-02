@@ -11,8 +11,14 @@ $(document).ready(function () {
 
     const grid = $(".grid");
     const displaySquares = $("div.preview-grid");
+    const scoreDisplay = $(".score-display");
+    const linesCleared = $(".lines-cleared");
+
     let squares = Array.from(grid.find('div'));
     let timerId;
+
+    let score = 0;
+    let lines = 0;
 
     // Assign functions to keycodes
 
@@ -166,6 +172,8 @@ $(document).ready(function () {
             currentPosition = 4;
             draw();
             displayShape();
+            gameOver();
+            addScore();
         }
 
     }
@@ -197,19 +205,48 @@ $(document).ready(function () {
     }
 
     $("#start-btn").click(function () {
-        if (timerId) {
-            clearInterval(timerId);
-            timerId = null;
-        }
-        else {
-            draw();
-            timerId = setInterval(moveDown, 1000);
-            nextRandom = Math.floor(Math.random() * theTetrominoes.length);
-            displayShape();
-        }
+        draw();
+        timerId = setInterval(moveDown, 1000);
+        nextRandom = Math.floor(Math.random() * theTetrominoes.length);
+        displayShape();
+        $(this).css("pointer-events", "none");
     });
 
-    //displayShape();
+    // Add Score
+
+    function addScore() {
+        for (currentIndex = 0; currentIndex < 199; currentIndex += width){
+            var row = [];
+            for (i = 0; i < width; i++)
+                row.push(currentIndex + i);
+            
+            if (row.every(index => squares[index].classList.contains("block2"))) {
+                score += 10;
+                lines++;
+                scoreDisplay.html("Score " + score);
+                linesCleared.html("Lines Cleared " + lines);
+
+                row.forEach(index => {
+                    squares[index].classList.remove("block2") || squares[index].classList.remove("block");
+                })
+
+                // Splice Array
+
+                const squaresRemoved = squares.splice(currentIndex, width);
+                squares = squaresRemoved.concat(squares);
+                squares.forEach(cell => grid.append(cell));
+            }
+        }
+    }
+
+    // Game Over function
+
+    function gameOver() {
+        if (current.some(index => squares[currentPosition + index].classList.contains("block2"))) {
+            scoreDisplay.html("End");
+            clearInterval(timerId);
+        }
+    }
 });
 
 function createGridDivs(width, height) {

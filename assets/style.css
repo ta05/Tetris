@@ -1,5 +1,6 @@
 div {
-    background-color: yellow;
+    background-color: black;
+    outline: 1px dotted rgb(224, 219, 219, 0.5);
     height: 20px;
     width: 20px;
 }
@@ -26,12 +27,20 @@ div {
 
 .block {
     background-color: blue;
+    box-sizing: border-box;
+    border: 1px solid gray;
+
 }
 
 .block2 {
     background-color: purple;
+    border: none;
+    outline: none;
 }
 
 .block3 {
     background-color: green;
+    outline: none;
+    box-sizing: border-box;
+    border-top: 1px dotted rgb(224, 219, 219, 0.5);
 }
