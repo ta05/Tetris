@@ -42,7 +42,9 @@ THEN the game ends
 ## Future Developments
 
 Improve the user interface of the web app.
+
 Add music to the app.
+
 Permit hard drop of tetrominoes.
 
 
