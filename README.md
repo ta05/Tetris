@@ -4,10 +4,10 @@ A port of the 1984 tile-matching game
 
 ## Description
 
-
 Tetris is a tile-matching video game created by Russian software engineer Alexey Pajitnov in 1984.
 
 In Tetris, players must complete lines by moving differently shaped pieces (tetrominoes), which descend onto the playing field. The completed lines disappear and grant the player points, and the player can proceed to fill the vacated spaces. The game ends when the playing field is filled.
+
 
 In this App:
 
@@ -38,6 +38,7 @@ THEN the line of tetrominoes is cleared and all frozen tetrominoes above fall to
 WHEN at least one column exceeds it's capacity
 
 THEN the game ends
+
 
 ## Future Developments
 
