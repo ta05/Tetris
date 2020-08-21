@@ -2,8 +2,6 @@
 
 https://ta05.github.io/Tetris/
 
-A port of the 1984 tile-matching game
-
 ## Description
 
 Tetris is a tile-matching video game created by Russian software engineer Alexey Pajitnov in 1984.
