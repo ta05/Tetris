@@ -1,5 +1,7 @@
 # Tetris
 
+https://ta05.github.io/Tetris/
+
 A port of the 1984 tile-matching game
 
 ## Description
@@ -51,6 +53,4 @@ Permit hard drop of tetrominoes.
 
 ## URLs
 
-Tetris Repo: https://github.com/ta05/Tetris
-
-Tetris Link: https://ta05.github.io/Tetris/
+Github: https://github.com/ta05/Tetris
